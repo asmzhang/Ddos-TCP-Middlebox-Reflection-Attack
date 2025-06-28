@@ -1,0 +1,5 @@
+/.idea/
+**/bulid/
+**/Debug/
+**/.vs/
+/npcap-sdk-1.15/

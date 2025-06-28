@@ -1,4 +1,0 @@
-﻿  mra_win.cpp
-F:\Ddos-TCP-Middlebox-Reflection-Attack\mra_win\mra_win\mra_win.cpp(209,72): warning C4267: “参数”: 从“size_t”转换到“u_short”，可能丢失数据
-F:\Ddos-TCP-Middlebox-Reflection-Attack\mra_win\mra_win\mra_win.cpp(214,58): warning C4267: “参数”: 从“size_t”转换到“u_short”，可能丢失数据
-  mra_win.vcxproj -> F:\Ddos-TCP-Middlebox-Reflection-Attack\mra_win\x64\Debug\mra_win.exe
